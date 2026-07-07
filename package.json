@@ -2,6 +2,9 @@
   "name": "farm-market",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "scripts": {
     "dev": "cross-env NODE_USE_SYSTEM_CA=1 next dev",
     "build": "next build",

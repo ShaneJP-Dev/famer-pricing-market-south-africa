@@ -2,8 +2,8 @@ import { DatabaseSync } from "node:sqlite";
 import fs from "node:fs";
 import path from "node:path";
 
-const DB_DIR = path.join(process.cwd(), "data");
-const DB_PATH = path.join(DB_DIR, "farm-market.db");
+const PROJECT_DB_DIR = path.join(process.cwd(), "data");
+const PROJECT_DB_PATH = path.join(PROJECT_DB_DIR, "farm-market.db");
 
 const SCHEMA = `
 CREATE TABLE IF NOT EXISTS products (
@@ -44,11 +44,38 @@ CREATE INDEX IF NOT EXISTS idx_snapshots_date
 `;
 
 function open(): DatabaseSync {
-  fs.mkdirSync(DB_DIR, { recursive: true });
-  const db = new DatabaseSync(DB_PATH);
-  db.exec("PRAGMA journal_mode = WAL;");
+  const dbPath = resolveDbPath();
+  fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+  const db = new DatabaseSync(dbPath);
+
+  // WAL is ideal locally; if unavailable in some runtimes, continue with
+  // SQLite defaults so reads still work.
+  try {
+    db.exec("PRAGMA journal_mode = WAL;");
+  } catch {
+    db.exec("PRAGMA journal_mode = DELETE;");
+  }
+
   db.exec(SCHEMA);
   return db;
+}
+
+function resolveDbPath(): string {
+  if (!process.env.VERCEL) {
+    return PROJECT_DB_PATH;
+  }
+
+  // Vercel functions run with ephemeral writable storage under /tmp.
+  const tmpDir = path.join("/tmp", "farm-market");
+  const tmpDbPath = path.join(tmpDir, "farm-market.db");
+  fs.mkdirSync(tmpDir, { recursive: true });
+
+  // Seed the ephemeral DB from the committed project DB when available.
+  if (!fs.existsSync(tmpDbPath) && fs.existsSync(PROJECT_DB_PATH)) {
+    fs.copyFileSync(PROJECT_DB_PATH, tmpDbPath);
+  }
+
+  return tmpDbPath;
 }
 
 // Reuse one connection across dev-server hot reloads
@@ -56,7 +83,12 @@ const globalForDb = globalThis as unknown as { __farmMarketDb?: DatabaseSync };
 
 export function getDb(): DatabaseSync {
   if (!globalForDb.__farmMarketDb) {
-    globalForDb.__farmMarketDb = open();
+    try {
+      globalForDb.__farmMarketDb = open();
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to initialize SQLite database: ${detail}`);
+    }
   }
   return globalForDb.__farmMarketDb;
 }

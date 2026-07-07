@@ -1,0 +1,26 @@
+{
+  "name": "farm-market",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_USE_SYSTEM_CA=1 next dev",
+    "build": "next build",
+    "start": "cross-env NODE_USE_SYSTEM_CA=1 next start",
+    "scrape": "curl -X POST http://localhost:3000/api/scrape"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "next": "^15.3.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "recharts": "^2.15.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "cross-env": "^10.1.0",
+    "playwright": "^1.61.1",
+    "typescript": "^5"
+  }
+}

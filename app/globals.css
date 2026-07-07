@@ -1,0 +1,261 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: #1a2b1a;
+  background: #f7f8f5;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+h1 {
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  color: #5c6b5c;
+  margin: 0 0 2rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e0e5dd;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.controls input,
+.controls select {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid #c8d0c4;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  background: #fff;
+}
+
+.controls input {
+  flex: 1;
+  min-width: 200px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+th,
+td {
+  padding: 0.4rem 0.6rem;
+  border-bottom: 1px solid #eef1ec;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  background: #f0f3ee;
+  position: sticky;
+  top: 0;
+}
+
+td.num,
+th.num {
+  text-align: right;
+}
+
+.table-scroll {
+  max-height: 480px;
+  overflow: auto;
+  border: 1px solid #e0e5dd;
+  border-radius: 6px;
+}
+
+/* Grouped table */
+.group-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.group-bar .subtitle {
+  margin: 0;
+}
+
+.group-actions button {
+  background: none;
+  border: 1px solid #c8d0c4;
+  border-radius: 6px;
+  padding: 0.2rem 0.6rem;
+  margin-left: 0.4rem;
+  font-size: 0.8rem;
+  color: #3a4a3a;
+  cursor: pointer;
+}
+
+.group-actions button:hover {
+  background: #eef1ec;
+}
+
+tr.group-header {
+  cursor: pointer;
+  background: #eef3ea;
+}
+
+tr.group-header:hover {
+  background: #e3ebdd;
+}
+
+tr.group-header td {
+  font-weight: 600;
+}
+
+tr.group-header td.muted,
+tr.group-header td.num.muted {
+  font-weight: 400;
+  color: #9aa89a;
+}
+
+.chev {
+  display: inline-block;
+  width: 1em;
+  color: #57944a;
+  font-size: 0.8rem;
+}
+
+.badge {
+  display: inline-block;
+  background: #57944a;
+  color: #fff;
+  border-radius: 10px;
+  padding: 0 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+tr.variant-row td {
+  color: #4a5a4a;
+  background: #fbfcfa;
+}
+
+tr.variant-row td:first-child {
+  border-left: 2px solid #d6e0cf;
+}
+
+.variant-cell {
+  width: 1.5rem;
+}
+
+.empty {
+  padding: 2rem;
+  text-align: center;
+  color: #5c6b5c;
+}
+
+.empty code {
+  background: #eef1ec;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+}
+
+button.scrape {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid #4a7c3f;
+  border-radius: 6px;
+  background: #57944a;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+button.scrape:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Keep the wide data table usable on small screens: it scrolls horizontally
+   inside .table-scroll rather than squashing 9 columns. */
+.table-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+table {
+  min-width: 640px;
+}
+
+@media (max-width: 640px) {
+  main {
+    padding: 1.25rem 0.85rem 3rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .card {
+    padding: 1rem 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Stack the filter controls; each spans the full width and is easy to tap. */
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .controls input,
+  .controls select,
+  .controls button.scrape {
+    width: 100%;
+    /* 16px avoids iOS zooming in when a field is focused */
+    font-size: 16px;
+  }
+
+  .controls input {
+    min-width: 0;
+  }
+
+  .group-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .group-actions {
+    display: flex;
+  }
+
+  .group-actions button {
+    margin: 0 0.4rem 0 0;
+  }
+
+  th,
+  td {
+    padding: 0.4rem 0.5rem;
+    font-size: 0.8rem;
+  }
+}

@@ -16,10 +16,6 @@ export default function HomePage() {
 
     return (
       <main>
-        <h1>Farm Market Prices</h1>
-        <p className="subtitle">
-          Daily fresh produce prices — multi-market aggregator proof of concept
-        </p>
         <Dashboard
           markets={markets}
           snapshots={snapshots}
